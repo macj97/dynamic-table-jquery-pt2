@@ -1,0 +1,77 @@
+/**
+ * File: style.css
+ * GUI Assignment: HW4 - Using the jQuery Plugin/UI with Your Dynamic Table
+ * Description: CSS file for Assignment 4 Part 2
+ * Joe Plummer, UMass Lowell Computer Science, joseph_plummer@student.uml.edu
+ * Copyright (c) 2026 by Joe Plummer. All rights reserved. May be freely copied or excerpted for educational purposes with credit to the author.
+ */
+
+ /*
+ * still need to to fix positioning of error message and input boxes
+ */
+
+/* overall look of the page */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(190, 242, 224);
+}
+
+/* form */
+.form-row label {
+    width: 200px;
+}
+.form-row {
+    display: flex;
+    align-items: center;
+}
+
+/* error messages */
+.error {
+    color: red;
+    margin-left: 20px;
+    width: 200px;
+}
+
+/* table */
+#Table-container {
+    margin: 20px;
+    overflow: auto;
+    max-height: 75vh;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+table > *:not(.hide-cell) {
+    background-color: rgb(253, 255, 160);
+}
+th, td {
+    padding: 10px;
+    width: 15px;
+    text-align: center;
+}
+th {
+    background-color: rgb(228, 122, 143);
+}
+tr:nth-child(even) {
+    background-color: rgb(255, 203, 138);
+}
+.hide-cell {
+    background-color: rgb(190, 242, 224);
+    border: none;
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+.header-row {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.header-column {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+
