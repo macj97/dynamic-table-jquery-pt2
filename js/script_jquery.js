@@ -6,6 +6,11 @@
  * Copyright (c) 2026 by Joe Plummer. All rights reserved. May be freely copied or excerpted for educational purposes with credit to the author.
  */
 
+/**
+ * still need to have table be created dynamically when user has inputed create fields
+ * or when one of the sliders is manipulated
+ */
+
 // start of JQuery 
 $(document).ready(function() {
     
@@ -19,6 +24,7 @@ $(document).ready(function() {
     });
     
     // validating #formID of index.html
+    const formValidator = 
     $("#formID").validate({
         rules: {
             mincolval: {
@@ -127,5 +133,46 @@ $(document).ready(function() {
         }
         table_container.appendChild(dTable);
     }
+
+    function refreshTable() {
+        if (formValidator.form()) {
+            buildTable();
+        }
+    }
+
+
+
+    function buildSliders(id_string) {
+        const $input = $("#"+id_string);
+        const $islider = $("#slider-"+id_string);
+
+        $islider.slider({
+            min: -50,
+            max: 50,
+            value: 0,      
+            slide: function(event, ui) {
+                $input.val(ui.value);
+                refreshTable();
+            } 
+        });
+
+        $input.val($islider.slider("value"));
+
+        $input.on("input", function() {
+            const num = Number($input.val());
+            $islider.slider("value", num);
+            refreshTable();
+        });
+
+    }
+
+    buildSliders("mincolval");
+    buildSliders("maxcolval");
+    buildSliders("minrowval");
+    buildSliders("maxrowval");
+    refreshTable();
+
+
+    
     
 });

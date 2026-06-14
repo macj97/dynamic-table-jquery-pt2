@@ -25,6 +25,11 @@ body {
     align-items: center;
 }
 
+/* sliders */
+.slider {
+    margin: 10px;
+}
+
 /* error messages */
 .error {
     color: red;
