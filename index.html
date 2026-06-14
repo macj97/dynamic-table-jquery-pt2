@@ -22,44 +22,63 @@ Copyright (c) 2026 by Joe Plummer. All rights reserved. May be freely copied or 
     <body>
         <h1>Dynamic Multiplication Table</h1>
 
-        <div id="Form">
-            <h2>Please enter the table ranges.</h2>
-            <form id="formID">
-                <div class="form-row">
-                    <label for="mincolval">Minimum Column Value:</label>
-                    <input type="text" id="mincolval" name="mincolval" 
-                        required autofocus><br>
-                </div>
-
-                <div class="slider" id="slider-mincolval"></div>
-
-                <div class="form-row">
-                    <label for="maxcolval">Maximum Column Value:</label>
-                    <input type="text" id="maxcolval" name="maxcolval" 
-                        required><br>
-                </div>
-
-                <div class="slider" id="slider-maxcolval"></div>
-
-                <div class="form-row">
-                    <label for="minrowval">Minimum Row Value:</label>
-                    <input type="text" id="minrowval" name="minrowval" 
-                        required><br>
-                </div>
-
-                <div class="slider" id="slider-minrowval"></div>
+        <!-- tabs -->
+        <div id="tabs">
+            <ul>
+                <li><a href="#Form"><span>Form</span></a></li>
                 
-                <div class="form-row">
-                    <label for="maxrowval">Maximum Row Value:</label>
-                    <input type="text" id="maxrowval" name="maxrowval" 
-                        required><br>
-                </div>
+            </ul>
 
-                <div class="slider" id="slider-maxrowval"></div>
+            
 
-                <input type="submit" id="submit-btn" value="Submit">
-                <!-- <input type="reset" value="Reset"><br> -->
-            </form>
+            <!-- tab contents  -->
+            <div id="Form">
+                <h2>Please enter the table ranges.</h2>
+                <h3>Press "Save" to save the table.</h3>
+                <!-- form -->
+                <form id="formID">
+                    <div class="form-row">
+                        <label for="mincolval">Minimum Column Value:</label>
+                        <input type="text" id="mincolval" name="mincolval" 
+                            required autofocus><br>
+                    </div>
+
+                    <div class="slider" id="slider-mincolval"></div>
+
+                    <div class="form-row">
+                        <label for="maxcolval">Maximum Column Value:</label>
+                        <input type="text" id="maxcolval" name="maxcolval" 
+                            required><br>
+                    </div>
+
+                    <div class="slider" id="slider-maxcolval"></div>
+
+                    <div class="form-row">
+                        <label for="minrowval">Minimum Row Value:</label>
+                        <input type="text" id="minrowval" name="minrowval" 
+                            required><br>
+                    </div>
+
+                    <div class="slider" id="slider-minrowval"></div>
+                    
+                    <div class="form-row">
+                        <label for="maxrowval">Maximum Row Value:</label>
+                        <input type="text" id="maxrowval" name="maxrowval" 
+                            required><br>
+                    </div>
+
+                    <div class="slider" id="slider-maxrowval"></div>
+
+                    <input type="submit" id="submit-btn" value="Submit">
+
+                    <input type="button" id="save-btn" value="Save">
+                    <!-- <input type="reset" value="Reset"><br> -->
+                </form>
+
+            </div>
+
+            
+
         </div>
 
         <div id="Table-container">

@@ -13,17 +13,25 @@
 
 // start of JQuery 
 $(document).ready(function() {
-    
-    // adding method "isMinLEMax" to compare the min value with the max value
-    jQuery.validator.addMethod("isMinLEMax", function(value, element, param) {
-        const max = Number(value);
-        // console.log("Max is: ",max); // debugging
-        const min = Number($(param).val());
-        // console.log("Min is: ",min); // debugging
-        return (min <= max);
+
+    // creates tabs
+    const $createdTabs = $("#tabs").tabs();
+
+    let tabCount = 0;
+
+    $("#save-btn").on("click", function() {
+        $("#tabs ul").append('<li><a href="#tab'+tabCount+'"><span>new tab!</span></a></li>');
+        $createdTabs.append('<div id="tab'+tabCount+'"></div>');
+        $createdTabs.tabs("refresh");
+        $createdTabs.tabs("option", "active", -1);
+        // $("#tab1").append("Here is content.");
+        // $("#tab1").append('<div id="Table-container1"></div>');
+        // $("#Table-container1").append(buildTable_tab());
+        tabCount = tabCount + 1;
     });
     
-    // validating #formID of index.html
+    
+    // validae #formID of index.html
     const formValidator = 
     $("#formID").validate({
         rules: {
@@ -81,6 +89,66 @@ $(document).ready(function() {
 
     });
 
+    // adding method "isMinLEMax" for validate() to compare the min value with the max value
+    jQuery.validator.addMethod("isMinLEMax", function(value, element, param) {
+        const max = Number(value);
+        // console.log("Max is: ",max); // debugging
+        const min = Number($(param).val());
+        // console.log("Min is: ",min); // debugging
+        return (min <= max);
+    });
+
+    /**
+     * Function buildTable_tab() builds the dynamic table given user inputs in a tab
+     * @param   N/A
+     * @return  N/A
+     * @throws  N/A
+     */
+    function buildTable_tab() {
+        // building the table
+
+        console.log("building table...");  // debugging
+
+        // variables
+        // minColNum = document.getElementById("mincolval").value;
+        // maxColNum = document.getElementById("maxcolval").value;
+        // minRowNum = document.getElementById("minrowval").value;
+        // maxRowNum = document.getElementById("maxrowval").value;
+        const dTable = document.createElement("table");
+
+        // first row:
+        const headerRow = document.createElement("tr");
+        const hiddenCell = document.createElement("th");
+        hiddenCell.className = "hide-cell";
+        headerRow.appendChild(hiddenCell);
+
+        let i = minColNum;
+        let j = minRowNum;
+        for (i; i <= maxColNum; i++) {
+            const headerCell = document.createElement("th");
+            headerCell.textContent = i;
+            headerCell.className = "header-row";
+            headerRow.appendChild(headerCell);
+        }
+        dTable.appendChild(headerRow);
+
+        // subsequent rows:
+        for (j; j <= maxRowNum; j++) {
+            const dRow = document.createElement("tr");
+            const hCell = document.createElement("th");
+            hCell.className = "header-column";
+            hCell.textContent = j;
+            dRow.appendChild(hCell);
+            for (i = minColNum; i <= maxColNum; i++) {
+                const dCell = document.createElement("td");
+                dCell.textContent = j * i;
+                dRow.appendChild(dCell);
+            }
+            dTable.appendChild(dRow);
+        }
+        return dTable;
+    }
+
     /**
      * Function buildTable() builds the dynamic table given user inputs
      * @param   N/A
@@ -90,7 +158,7 @@ $(document).ready(function() {
     function buildTable() {
         // building the table
 
-        console.log("building table...");  // debugging
+        // console.log("building table...");  // debugging
 
         // variables
         minColNum = document.getElementById("mincolval").value;
@@ -134,6 +202,8 @@ $(document).ready(function() {
         table_container.appendChild(dTable);
     }
 
+
+
     function refreshTable() {
         if (formValidator.form()) {
             buildTable();
@@ -166,6 +236,7 @@ $(document).ready(function() {
 
     }
 
+    // create the sliders and table
     buildSliders("mincolval");
     buildSliders("maxcolval");
     buildSliders("minrowval");
