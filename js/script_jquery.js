@@ -252,6 +252,7 @@ $(document).ready(function() {
 
     let tabCount = 0;
 
+    // save button clicked -> creates a new tab with saved table
     $("#save-btn").on("click", function() {
         // variables
         minColNum = document.getElementById("mincolval").value;
@@ -260,7 +261,8 @@ $(document).ready(function() {
         maxRowNum = document.getElementById("maxrowval").value;
         let tabTitle = "["+minColNum+", "+maxColNum+"], ["
                         +minRowNum+", "+maxRowNum+"]";
-        $("#tabs ul").append('<li><a href="#tab'+tabCount+'"><span>'+tabTitle+'</span></a></li>');
+        $("#tabs ul").append('<li><a href="#tab'+tabCount+'"><span>'+tabTitle+
+            '</span></a><span class="ui-icon ui-icon-close"></span></li>');
         const newTab = document.createElement("div");
         newTab.id = "tab"+tabCount;
         newTab.class = "saved-table";
@@ -289,6 +291,13 @@ $(document).ready(function() {
     //     console.log("On other tab click: hide dyn-table");
     // });
 
+    // closing tabs
+    $createdTabs.on("click", "span.ui-icon-close", function() {
+        console.log("Tab supposed to close.");
+        let tabs = $(this).closest("li").remove().attr("aria-controls");
+        $("#" + tabs).remove();
+        $createdTabs.tabs("refresh");
+    });
 
     
     

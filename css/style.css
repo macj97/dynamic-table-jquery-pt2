@@ -35,6 +35,13 @@ h2, h3 {
     margin: 10px;
 }
 
+/* tabs */
+.ui-tabs .ui-tabs-nav .ui-icon-close {
+    float: left;
+    margin: 0.4em 0.2em 0 0;
+    cursor: pointer;
+}
+
 /* error messages */
 .error {
     color: red;
