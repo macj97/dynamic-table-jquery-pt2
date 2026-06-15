@@ -6,15 +6,10 @@
  * Copyright (c) 2026 by Joe Plummer. All rights reserved. May be freely copied or excerpted for educational purposes with credit to the author.
  */
 
-/**
- * still need to have table be created dynamically when user has inputed create fields
- * or when one of the sliders is manipulated
- */
-
 // start of JQuery 
 $(document).ready(function() {
 
-    // validae #formID of index.html
+    // validate #formID of index.html
     const formValidator = 
     $("#formID").validate({
         rules: {
@@ -104,7 +99,7 @@ $(document).ready(function() {
         // variables
         getInputs();
         
-        console.log(minColNum,maxColNum,minRowNum,maxRowNum);
+        // console.log(minColNum,maxColNum,minRowNum,maxRowNum);
 
         let table_container;
         opt = Number(opt);

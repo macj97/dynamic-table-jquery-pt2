@@ -6,10 +6,6 @@
  * Copyright (c) 2026 by Joe Plummer. All rights reserved. May be freely copied or excerpted for educational purposes with credit to the author.
  */
 
- /*
- * still need to to fix positioning of error message and input boxes
- */
-
 /* overall look of the page */
 body {
     font-family: Arial, Helvetica, sans-serif;
@@ -60,7 +56,6 @@ h2, h3, h4 {
     margin: 20px;
     overflow: auto;
     max-height: 80vh;
-    /* max-width: 100vh; */
 }
 table, th, td {
     border: 1px solid black;
