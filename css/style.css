@@ -38,7 +38,7 @@ h2, h3, h4 {
 /* sliders */
 .slider {
     margin: 10px;
-    width: 400px;
+    width: 391px;
 }
 
 /* tabs */
@@ -56,10 +56,11 @@ h2, h3, h4 {
 }
 
 /* table */
-#Table-container {
+#Table-container, #table-container {
     margin: 20px;
     overflow: auto;
-    max-height: 75vh;
+    max-height: 80vh;
+    /* max-width: 100vh; */
 }
 table, th, td {
     border: 1px solid black;

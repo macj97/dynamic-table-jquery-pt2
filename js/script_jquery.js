@@ -66,7 +66,6 @@ $(document).ready(function() {
             }
         },
         submitHandler: function(form) {
-            // console.log("inside submitHandler..."); // debugging
             buildTable(0);
         }
 
@@ -75,15 +74,19 @@ $(document).ready(function() {
     // adding method "isMinLEMax" for validate() to compare the min value with the max value
     jQuery.validator.addMethod("isMinLEMax", function(value, element, param) {
         const max = Number(value);
-        // console.log("Max is: ",max); // debugging
         const min = Number($(param).val());
-        // console.log("Min is: ",min); // debugging
         return (min <= max);
     });
 
     // variables for user input
     let minColNum, maxColNum, minRowNum, maxRowNum;
 
+    /**
+     * Function getInputs gets the inputs from the user
+     * @param   N/A
+     * @return  N/A
+     * @throws  N/A
+     */
     function getInputs() {
         minColNum = Number(document.getElementById("mincolval").value);
         maxColNum = Number(document.getElementById("maxcolval").value);
@@ -98,10 +101,6 @@ $(document).ready(function() {
      * @throws  N/A
      */
     function buildTable(opt) {
-        // building the table
-
-        // console.log("building table...");  // debugging
-
         // variables
         getInputs();
         
@@ -111,10 +110,13 @@ $(document).ready(function() {
         opt = Number(opt);
         switch (opt) {
             case 0: // table in Form tab
-                table_container = document.getElementById("Table-container"); // container of the table element
+                // container of the table element
+                table_container = document.getElementById("Table-container"); 
                 break;
             case 1: // table in saved tab
-                table_container = document.createElement("div"); // create container of the table element
+                // create container of the table element
+                table_container = document.createElement("div");
+                table_container.id = "table-container";
                 break;
         }
 
@@ -163,9 +165,16 @@ $(document).ready(function() {
     }
 
 
-
+    /**
+     * Function refreshTable calls buildTable only if the form is validated, otherwise clears
+     *  the table container
+     * @param   N/A
+     * @return  N/A
+     * @throws  N/A
+     */
     function refreshTable() {
-        let table_container = document.getElementById("Table-container"); // container of the table element
+        // container of the table element
+        let table_container = document.getElementById("Table-container"); 
         if (formValidator.form()) {
             buildTable(0);
         }
@@ -175,7 +184,13 @@ $(document).ready(function() {
     }
 
 
-
+    /**
+     * Function buildSliders creates the sliders for the form
+     * @param   id_string    string    used to access the user input textboxes
+     *                                  and slider elements
+     * @return  N/A
+     * @throws  N/A
+     */
     function buildSliders(id_string) {
         const $input = $("#"+id_string);
         const $islider = $("#slider-"+id_string);
@@ -185,14 +200,21 @@ $(document).ready(function() {
             max: 50,
             value: 0,      
             slide: function(event, ui) {
+                // sets the value of the user input box
+                // when slider is created, refreshes table
                 $input.val(ui.value);
                 refreshTable();
             } 
         });
 
+        // sets the value of the user input box
+        // the value that slider is currently
         $input.val($islider.slider("value"));
 
+        // when something is in the user inputbox
         $input.on("input", function() {
+            // sets the value and position of the slider
+            // and refreshes table
             const num = Number($input.val());
             $islider.slider("value", num);
             refreshTable();
@@ -208,8 +230,6 @@ $(document).ready(function() {
     refreshTable();
 
 
-    // const mincolval_2 = $("#")
-
     // create tabs
     const $createdTabs = $("#tabs").tabs({
         // make dynamic-table at the bottom of the page appear
@@ -218,16 +238,12 @@ $(document).ready(function() {
             let activeIndex = ui.newTab.index();
             if (activeIndex === 0) {
                 $("#Table-container").show();
-                console.log("Tab initialization: dyn-table show");
             }
             else {
                 $("#Table-container").hide();
-                console.log("Tab initialization: dyn-table hide");
             }
         }
     });
-
-    // const tabContent = buildTable_tab();
 
     let tabCount = 0;
 
@@ -247,7 +263,6 @@ $(document).ready(function() {
         const newTab = document.createElement("div");
         newTab.id = "tab"+tabCount;
         newTab.class = "saved-table";
-        // console.log("newTab ID/Class:", newTab.id, newTab.class);
         let newTable = buildTable(1);
         // trying to change background of hidden-cell to match white  of tab background
         // console.log("newTable: ", newTable);
@@ -258,29 +273,13 @@ $(document).ready(function() {
         $createdTabs.tabs("refresh");
         $createdTabs.tabs("option", "active", -1);
         $("#tabs ")
-        // $("#tab1").append("Here is content.");
-        // $("#tab1").append('<div id="Table-container1"></div>');
-        // $("#Table-container1").append(buildTable_tab());
         tabCount = tabCount + 1;
         $("#Table-container").hide();
         console.log("Save button: hide dyn-table");
     });
 
-    // // make dynamic-table reappear when clicked on
-    // $("#Form").on("tabsactivate", function() {
-    //     $("#Table-container").show();
-    //     console.log("On form click: show dyn-table");
-    // });
-
-    // // make dynamic-table disappear when other tabs are clicked
-    // $(".saved-table").on("tabsactivate", function() {
-    //     $("#Table-container").hide(); 
-    //     console.log("On other tab click: hide dyn-table");
-    // });
-
     // closing a single tab
     $createdTabs.on("click", "span.ui-icon-close", function() {
-        // console.log("Tab supposed to close.");
         // remove tab header
         let tabs = $(this).closest("li").remove().attr("aria-controls");
         // remove tab contents
@@ -320,6 +319,5 @@ $(document).ready(function() {
             $createdTabs.tabs("refresh");
         });
     });
-    
     
 });
