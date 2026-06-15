@@ -67,7 +67,7 @@ $(document).ready(function() {
         },
         submitHandler: function(form) {
             // console.log("inside submitHandler..."); // debugging
-            buildTable();
+            buildTable(0);
         }
 
     });
@@ -81,23 +81,43 @@ $(document).ready(function() {
         return (min <= max);
     });
 
+    // variables for user input
+    let minColNum, maxColNum, minRowNum, maxRowNum;
+
+    function getInputs() {
+        minColNum = Number(document.getElementById("mincolval").value);
+        maxColNum = Number(document.getElementById("maxcolval").value);
+        minRowNum = Number(document.getElementById("minrowval").value);
+        maxRowNum = Number(document.getElementById("maxrowval").value);
+    }   
+
     /**
-     * Function buildTable_tab() builds the dynamic table given user inputs in a tab
-     * @param   N/A
+     * Function buildTable builds the dynamic table given user inputs
+     * @param   opt     option parameter, 0-build dynamic table, 1-build dynamic table for a new tab
      * @return  N/A
      * @throws  N/A
      */
-    function buildTable_tab() {
+    function buildTable(opt) {
         // building the table
 
         // console.log("building table...");  // debugging
 
         // variables
-        minColNum = document.getElementById("mincolval").value;
-        maxColNum = document.getElementById("maxcolval").value;
-        minRowNum = document.getElementById("minrowval").value;
-        maxRowNum = document.getElementById("maxrowval").value;
-        let table_container = document.createElement("div"); // create container of the table element
+        getInputs();
+        
+        console.log(minColNum,maxColNum,minRowNum,maxRowNum);
+
+        let table_container;
+        opt = Number(opt);
+        switch (opt) {
+            case 0: // table in Form tab
+                table_container = document.getElementById("Table-container"); // container of the table element
+                break;
+            case 1: // table in saved tab
+                table_container = document.createElement("div"); // create container of the table element
+                break;
+        }
+
         table_container.innerHTML = "";
         const dTable = document.createElement("table");
 
@@ -132,67 +152,25 @@ $(document).ready(function() {
             dTable.appendChild(dRow);
         }
         table_container.appendChild(dTable);
-        return table_container;
-    }
 
-    /**
-     * Function buildTable() builds the dynamic table given user inputs
-     * @param   N/A
-     * @return  N/A
-     * @throws  N/A
-     */
-    function buildTable() {
-        // building the table
-
-        // console.log("building table...");  // debugging
-
-        // variables
-        minColNum = document.getElementById("mincolval").value;
-        maxColNum = document.getElementById("maxcolval").value;
-        minRowNum = document.getElementById("minrowval").value;
-        maxRowNum = document.getElementById("maxrowval").value;
-        let table_container = document.getElementById("Table-container"); // container of the table element
-        table_container.innerHTML = "";
-        const dTable = document.createElement("table");
-
-        // first row:
-        const headerRow = document.createElement("tr");
-        const hiddenCell = document.createElement("th");
-        hiddenCell.className = "hide-cell";
-        headerRow.appendChild(hiddenCell);
-
-        let i = minColNum;
-        let j = minRowNum;
-        for (i; i <= maxColNum; i++) {
-            const headerCell = document.createElement("th");
-            headerCell.textContent = i;
-            headerCell.className = "header-row";
-            headerRow.appendChild(headerCell);
+        switch (opt) {
+            case 0: // table in Form tab
+                break;
+            case 1: // table in saved tab
+                return table_container;
+                break;
         }
-        dTable.appendChild(headerRow);
-
-        // subsequent rows:
-        for (j; j <= maxRowNum; j++) {
-            const dRow = document.createElement("tr");
-            const hCell = document.createElement("th");
-            hCell.className = "header-column";
-            hCell.textContent = j;
-            dRow.appendChild(hCell);
-            for (i = minColNum; i <= maxColNum; i++) {
-                const dCell = document.createElement("td");
-                dCell.textContent = j * i;
-                dRow.appendChild(dCell);
-            }
-            dTable.appendChild(dRow);
-        }
-        table_container.appendChild(dTable);
     }
 
 
 
     function refreshTable() {
+        let table_container = document.getElementById("Table-container"); // container of the table element
         if (formValidator.form()) {
-            buildTable();
+            buildTable(0);
+        }
+        else {
+            table_container.innerHTML = "";
         }
     }
 
@@ -234,9 +212,10 @@ $(document).ready(function() {
 
     // create tabs
     const $createdTabs = $("#tabs").tabs({
+        // make dynamic-table at the bottom of the page appear
+        // if form tab, disappear if saved tab
         activate: function(event, ui) {
             let activeIndex = ui.newTab.index();
-
             if (activeIndex === 0) {
                 $("#Table-container").show();
                 console.log("Tab initialization: dyn-table show");
@@ -254,23 +233,31 @@ $(document).ready(function() {
 
     // save button clicked -> creates a new tab with saved table
     $("#save-btn").on("click", function() {
-        // variables
-        minColNum = document.getElementById("mincolval").value;
-        maxColNum = document.getElementById("maxcolval").value;
-        minRowNum = document.getElementById("minrowval").value;
-        maxRowNum = document.getElementById("maxrowval").value;
+        if (!formValidator.form()) { // form validation
+            return;
+        }
+        getInputs();
+        // title of the tab
         let tabTitle = "["+minColNum+", "+maxColNum+"], ["
                         +minRowNum+", "+maxRowNum+"]";
+        // creating a tab header in the ul
         $("#tabs ul").append('<li><a href="#tab'+tabCount+'"><span>'+tabTitle+
             '</span></a><span class="ui-icon ui-icon-close"></span></li>');
+        // create new tab element, add to #tabs
         const newTab = document.createElement("div");
         newTab.id = "tab"+tabCount;
         newTab.class = "saved-table";
         // console.log("newTab ID/Class:", newTab.id, newTab.class);
-        newTab.append(buildTable_tab());
+        let newTable = buildTable(1);
+        // trying to change background of hidden-cell to match white  of tab background
+        // console.log("newTable: ", newTable);
+        // console.log("hide-Cell: ", $(newTable).children(".hide-Cell"));
+        // $(newTable).children(".hide-Cell").css("background-color", "white");
+        newTab.append(newTable);
         $createdTabs.append(newTab);
         $createdTabs.tabs("refresh");
         $createdTabs.tabs("option", "active", -1);
+        $("#tabs ")
         // $("#tab1").append("Here is content.");
         // $("#tab1").append('<div id="Table-container1"></div>');
         // $("#Table-container1").append(buildTable_tab());
@@ -291,14 +278,48 @@ $(document).ready(function() {
     //     console.log("On other tab click: hide dyn-table");
     // });
 
-    // closing tabs
+    // closing a single tab
     $createdTabs.on("click", "span.ui-icon-close", function() {
-        console.log("Tab supposed to close.");
+        // console.log("Tab supposed to close.");
+        // remove tab header
         let tabs = $(this).closest("li").remove().attr("aria-controls");
+        // remove tab contents
         $("#" + tabs).remove();
         $createdTabs.tabs("refresh");
     });
 
+    // closing multiple tabs
+    // selection
+    $("#tabs").on("click", "li", function(e) {
+        console.log("e.target: ", e.target)
+        // if 'x' icon was clicked
+        if ($(e.target).hasClass("ui-icon-close")) {
+            console.log("Should not be seeing this...");
+            return;
+        }
+        // if Form tab was selected
+        if ($(this).index() === 0) {
+            return;
+        }
+        // if Cntrl or Cmd is pressed, change ui class
+        if (e.ctrlKey || e.metaKey) {
+            e.preventDefault(); // prevent tab from switching
+            $(this).toggleClass("ui-state-highlight");
+        } else { // Remove highlight from all tabs if normal click
+            $("#tabs ul li").removeClass("ui-state-highlight");
+        }
+    });
+    // closing
+    $("#delete-btn").on("click", function() {
+        // each tab with ui-state-highlight class removed
+        $("#tabs ul li.ui-state-highlight").each(function() {
+            // remove tab header
+            let tabs = $(this).closest("li").remove().attr("aria-controls");
+            // remove tab contents
+            $("#" + tabs).remove();
+            $createdTabs.tabs("refresh");
+        });
+    });
     
     
 });

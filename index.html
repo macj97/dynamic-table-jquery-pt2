@@ -25,7 +25,7 @@ Copyright (c) 2026 by Joe Plummer. All rights reserved. May be freely copied or 
         <!-- tabs -->
         <div id="tabs">
             <ul>
-                <li><a href="#Form"><span>Form</span></a></li>
+                <li id="formTab"><a href="#Form"><span>Form</span></a></li>
                 
             </ul>
 
@@ -35,6 +35,8 @@ Copyright (c) 2026 by Joe Plummer. All rights reserved. May be freely copied or 
             <div id="Form">
                 <h2>Please enter the table ranges.</h2>
                 <h3>Press "Save" to save the table.</h3>
+                <h3>Press "Delete" to delete yellow-selected tabs.</h3>
+                <h4>Hold "Ctrl" or "Command" to select multiple tabs.</h4>
                 <!-- form -->
                 <form id="formID">
                     <div class="form-row">
@@ -80,6 +82,8 @@ Copyright (c) 2026 by Joe Plummer. All rights reserved. May be freely copied or 
 
 
         </div>
+
+        <input type="button" id="delete-btn" value="Delete">
 
         <!-- dynamically created table container -->
         <div id="Table-container">

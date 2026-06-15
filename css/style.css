@@ -17,7 +17,7 @@ body {
 }
 
 /* headers */
-h2, h3 {
+h2, h3, h4 {
     margin: 10px;
 }
 
@@ -29,10 +29,16 @@ h2, h3 {
     display: flex;
     align-items: center;
 }
+#delete-btn {
+    margin-top: 5px;
+    margin-left: 27px;
+    font-size: 105%;
+}
 
 /* sliders */
 .slider {
     margin: 10px;
+    width: 400px;
 }
 
 /* tabs */
@@ -91,4 +97,3 @@ tr:nth-child(even) {
     left: 0;
     z-index: 1;
 }
-
